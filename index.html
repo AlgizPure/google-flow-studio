@@ -258,98 +258,45 @@
         </div>
       </div>
 
-      <h2>Готовый код для вкладки Code: «Skinerica Living Skin Video Engine»</h2>
+      <h2>Мастер-промпт для создания инструмента во вкладке Tools</h2>
+      <p style="font-size: 13.5px; color: var(--ink-72); margin-bottom: 10px;">
+        В интерфейсе Google Flow нет ручного редактора кода: создание инструментов полностью <b>промпт-ориентированное</b> (No-Code). Скопируйте этот текст целиком в поле ввода Create Tool и нажмите <b>Generate</b>:
+      </p>
       <div class="code-wrapper">
-        <button class="btn-copy" data-target="#custom-tool-code">Копировать код инструмента</button>
-        <pre id="custom-tool-code">{
-  "tool_id": "skinerica_living_skin_v1",
-  "name": "Skinerica Living Skin Video Engine",
-  "version": "1.0.0",
-  "description": "Brand-locked video prompt builder and model routing for Skinerica clinical advertising.",
-  "ui_schema": {
-    "sections": [
-      {
-        "title": "1. Сцена и креатив",
-        "fields": [
-          {
-            "id": "creative_type",
-            "label": "Тип сценария",
-            "type": "select",
-            "options": [
-              { "value": "m1_smas", "label": "m1 · SMAS-лифтинг (Контур при свете)" },
-              { "value": "m2_body", "label": "m2 · Сторис Тело (Без спешки)" },
-              { "value": "m3_epilation", "label": "m3 · Эпиляция (Гладко)" },
-              { "value": "m4_pigment", "label": "m4 · Пигментация (Ровный тон)" },
-              { "value": "m5_consult", "label": "m5 · Консультация (Разговор с врачом)" },
-              { "value": "m6_banner", "label": "m6 · Широкий баннер (16 лет)" },
-              { "value": "erica_speech", "label": "Эрика · Говорящий аватар" }
-            ],
-            "default": "m1_smas"
-          },
-          {
-            "id": "model_engine",
-            "label": "Модель генерации",
-            "type": "radio",
-            "options": [
-              { "value": "veo_quality", "label": "Veo 3.1 Quality (1080p/4K Финал)" },
-              { "value": "omni_flash", "label": "Gemini Omni Flash 1.1 (Липсинк/Голос)" }
-            ],
-            "default": "veo_quality"
-          }
-        ]
-      },
-      {
-        "title": "2. Опорные ассеты",
-        "fields": [
-          {
-            "id": "start_frame",
-            "label": "Стартовый кадр (Start Frame 9:16 / 16:9)",
-            "type": "image_upload",
-            "required": true
-          },
-          {
-            "id": "character_tag",
-            "label": "Тег персонажа из реестра",
-            "type": "character_picker",
-            "allowed_tags": ["@Heroine_A", "@Heroine_B", "@Heroine_C", "@Heroine_D", "@Erica_K", "@Erica_E", "@Dr_Baranchikova"]
-          }
-        ]
-      },
-      {
-        "title": "3. Динамика и параметры",
-        "fields": [
-          {
-            "id": "motion_intensity",
-            "label": "Интенсивность движения (Skinerica Canon: 2-4)",
-            "type": "slider",
-            "min": 1,
-            "max": 10,
-            "default": 3
-          },
-          {
-            "id": "camera_motion",
-            "label": "Движение камеры",
-            "type": "select",
-            "options": [
-              { "value": "locked", "label": "Locked-off Tripod (Статичный штатив)" },
-              { "value": "slow_push", "label": "Slow Imperceptible Push-in (Медленный наезд)" }
-            ],
-            "default": "locked"
-          }
-        ]
-      }
-    ]
-  },
-  "prompt_compiler": {
-    "engine": "template_interpolation",
-    "rules": {
-      "strip_static_descriptions": true,
-      "enforce_negative_space_lock": true,
-      "enforce_audio_clinic_tone": true
-    },
-    "template": "Using the provided start frame — Camera ${inputs.camera_motion === 'locked' ? 'remains locked-off on tripod' : 'performs an almost imperceptible slow push-in'}. ${inputs.character_tag} breathes calmly. ${getKinematicMotion(inputs.creative_type)}. The negative caption zone of the frame remains completely still and clean for all 8 seconds. Audio: quiet clinic room tone, no music."
-  }
-}</pre>
+        <button class="btn-copy" data-target="#custom-tool-prompt">Копировать мастер-промпт инструмента</button>
+        <pre id="custom-tool-prompt" style="font-size: 13px; line-height: 1.6;">Build a professional video prompt generator tool named "Skinerica Living Skin Engine".
+
+Create an interface with the following controls:
+1. Dropdown "Scene Type":
+   - m1 · SMAS Lifting (Contour in light, 4:5 / 9:16)
+   - m2 · Body Stories (Unhurried, 9:16)
+   - m3 · Laser Epilation (Smooth, 3:4 / 9:16)
+   - m4 · Pigmentation Catalog (Even tone, 4:5 / 9:16)
+   - m5 · Consultation (Doctor and patient, 3:2 / 16:9)
+   - m6 · Wide Banner (16 years in light, 2:1 / 16:9)
+   - Erica · Talking Avatar (Russian speech)
+
+2. Image Upload "Start Frame":
+   - Accepts vertical (1080x1920) or horizontal (1920x1080) approved frames with baked negative space.
+
+3. Character Picker "Entity Tag":
+   - Options: @Heroine_A, @Heroine_B, @Heroine_C, @Heroine_D, @Erica_K, @Erica_E, @Dr_Baranchikova.
+
+4. Slider "Motion Intensity":
+   - Range 1 to 10, default value 3 (subtle clinic motion).
+
+5. Radio Selector "Camera Motion":
+   - Locked-off Tripod (default)
+   - Slow Imperceptible Push-in
+
+Generation Logic:
+When the user clicks Generate, assemble an optimized prompt for Veo 3.1 Quality:
+- Start with: "Using the provided start frame — "
+- Do NOT describe the subject's face, clothing, or age (these are locked in the start frame).
+- Describe only the motion: calm breathing, slow turn toward the warm key light, subtle closed-lip smile.
+- Explicitly state: "The empty caption zone of the frame remains completely still and clean for all 8 seconds."
+- Add audio rule: "Audio: quiet clinic room tone, no music."
+Output the final prompt and allow 1-click copying.</pre>
       </div>
     </section>
 
