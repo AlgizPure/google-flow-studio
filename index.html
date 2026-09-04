@@ -35,6 +35,7 @@
     <button class="nav-pill" data-tab="voice_lab">5. Голос & Клонирование</button>
     <button class="nav-pill" data-tab="chaining_scenes">6. Склейка >8s & Сцены</button>
     <button class="nav-pill" data-tab="ultra_limits">7. Лимиты Ultra & Экономика</button>
+    <button class="nav-pill" data-tab="flow_music">8. Flow Music & Саундтрек</button>
   </nav>
 
   <!-- Main Container -->
@@ -542,6 +543,147 @@ Audio: quiet clinic room tone, no music.</pre>
           <li><b>Фаза 2: Проверка кинематики (10 кредитов)</b> — Быстрый запуск в Gemini Omni Flash (360p). Проверка, что глаза, пальцы и контур лица не искажаются при движении.</li>
           <li><b>Фаза 3: Мастер-рендеринг (50 кредитов)</b> — Запуск в Veo 3.1 Quality (1080p). Получение финального коммерческого мастера.</li>
         </ol>
+      </div>
+    </section>
+
+    <!-- TAB 8: FLOW MUSIC & SOUNDTRACK -->
+    <section id="flow_music" class="tab-content">
+      <div class="card-header" style="margin-bottom: 24px;">
+        <div>
+          <h1>Flow Music: Брендовый саундтрек для Google Flow</h1>
+          <p class="lede">Специальная акустическая партитура для 65-секундного Манифеста v3.1 «Живая кожа». Гармонический перевод фирменной палитры Skinerica в звук: войлочный рояль, суб-басовая виолончель, дыхание и тактильный шорох льна.</p>
+        </div>
+        <span class="badge badge-terra">Soundtrack v1 · 65s</span>
+      </div>
+
+      <!-- Built-in Audio Player -->
+      <div class="card" style="border: 2px solid var(--sage); margin-bottom: 24px;">
+        <div class="card-header">
+          <div>
+            <h3>🎵 Слушать мастер-трек: «Flow Music — Living Skin v1»</h3>
+            <p style="font-size: 13px; color: var(--ink-72); margin-top: 4px;">Синтезировано в 48kHz Stereo под хронометраж и паузы Манифеста v3.1 (65.0 сек, 68 BPM, Ре-минор / Фа-мажор)</p>
+          </div>
+          <span class="badge badge-sage">Master 48kHz</span>
+        </div>
+        
+        <div style="margin: 20px 0; background: var(--milk-panel); padding: 16px 20px; border-radius: 12px;">
+          <audio controls style="width: 100%; border-radius: 8px;" src="./flow_music_living_skin_v1.mp3">
+            Ваш браузер не поддерживает аудио элемент.
+          </audio>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px; font-size: 12.5px; color: var(--ink-72); flex-wrap: wrap; gap: 8px;">
+            <span>Формат стриминга: MP3 192kbps (1.5 МБ)</span>
+            <div style="display: flex; gap: 10px;">
+              <a href="./flow_music_living_skin_v1.mp3" download class="btn-copy" style="text-decoration: none; padding: 6px 14px;">Скачать MP3</a>
+              <a href="./flow_music_living_skin_v1.wav" download class="btn-copy" style="text-decoration: none; padding: 6px 14px; background: var(--sage); color: #fff;">Скачать студийный WAV (12 МБ)</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 Stems Table -->
+      <h2>4 акустических слоя (Stems) — Перевод палитры в звук</h2>
+      <div class="table-responsive">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Цвет палитры</th>
+              <th>Акустический инструмент</th>
+              <th>Частотный диапазон</th>
+              <th>Роль в саундтреке манифеста</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b style="color: #4F6E5E;">#769D8A Шалфей</b></td>
+              <td><b>Felt Piano (Войлочный рояль)</b></td>
+              <td>120 Гц – 4.5 кГц (мягкий спад)</td>
+              <td>Голос разума и спокойствия врача: размеренные открытые аккорды при 68 BPM (пульс покоя). Приглушённый войлочный удар молоточков без салонного блеска.</td>
+            </tr>
+            <tr>
+              <td><b style="color: #2E2A26;">#2E2A26 Графит</b></td>
+              <td><b>Warm Cello Drone (Виолончель)</b></td>
+              <td>D2 (73.4 Гц) – 220 Гц</td>
+              <td>Физическая плотность и надежность: протяжный смычок, заземляющий басовый фундамент. Создаёт ощущение веса и уверенности клиники с 16-летней историей.</td>
+            </tr>
+            <tr>
+              <td><b style="color: #9A8A76;">#F5F1EA Молочный</b></td>
+              <td><b>Room Tone & Breath (Воздух и лён)</b></td>
+              <td>Розовый шум с LFO 0.12 Гц</td>
+              <td>Чистый воздух кабинета: медленная дыхательная волна (~5 сек на цикл вдоха/выдоха), мягкий тактильный шорох льна. Полное отсутствие цифрового холода.</td>
+            </tr>
+            <tr>
+              <td><b style="color: #C9704F;">#C9704F Терракота</b></td>
+              <td><b>Warm Chime / Rhodes Harmonic</b></td>
+              <td>1.8 кГц – 3.2 кГц</td>
+              <td>Скрытая чувственность и осязаемое желание: точечный теплый гармонический резонанс на словах «Красота по праву» (Шот 4) и разрешении в Dmaj9 (Шот 5).</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Timeline Synchronization -->
+      <h2>Синхронизация музыки и видеоряда (65 секунд / 5 шотов)</h2>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <h3>Шоты 1–3: Исследование и фактура</h3>
+            <span class="badge badge-sage">0:00 – 0:39</span>
+          </div>
+          <ul style="padding-left: 18px; font-size: 13.5px; line-height: 1.7; color: var(--ink-72);">
+            <li><b>0:00 – 0:11 (Шот 1 · Dm9):</b> Включение теплого света лампы. Вступает виолончельный дрон на ноте D2, редкие тактильные ноты рояля (D3, A3, F3, E4). Голос: <i>«Шестнадцать лет мы смотрим на кожу при свете...»</i>.</li>
+            <li><b>0:11 – 0:26 (Шот 2 · Bbmaj7):</b> Переход в нежный мажорный подтекст. Рояль раскрывается вверх до F4. Звук дыхания соединяется со словами: <i>«она живая... расцветать и созревать»</i>.</li>
+            <li><b>0:26 – 0:39 (Шот 3 · Fadd9):</b> Появление уверенного баса F2. Чёткий ритмический шаг (68 BPM) на словах: <i>«результат — не на словах, а на теле»</i>.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <h3>Шоты 4–5: Кульминация и финал</h3>
+            <span class="badge badge-terra">0:39 – 1:05</span>
+          </div>
+          <ul style="padding-left: 18px; font-size: 13.5px; line-height: 1.7; color: var(--ink-72);">
+            <li><b>0:39 – 0:53 (Шот 4 · Gm9 $\rightarrow$ Asus4):</b> Эмоциональный подъем. Гармония устремляется вверх, на аккорде Asus4 звучит слоган <i>«Красота по праву»</i>. Возникает ощущение освобождения и права на удовольствие.</li>
+            <li><b>0:53 – 1:05 (Шот 5 · Dmaj9 Resolve):</b> Разрешение в светлый тёплый Ре-мажор (D2, F#3, D4, A4). Взгляд героини прямо в камеру. Финальный слоган <i>«Настоящее к лицу»</i> звучит в затухающем резонансе рояля и тихом выдохе.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- AI Prompts for Music Engines -->
+      <h2>Промпты для генерации Flow Music во внешних нейросетях</h2>
+      
+      <div class="card">
+        <div class="card-header">
+          <h3>1. Google MusicFX (Google DeepMind Lyria Engine)</h3>
+          <button class="btn-copy" data-target="prompt-musicfx">Копировать</button>
+        </div>
+        <pre id="prompt-musicfx">minimalist warm documentary soundtrack, felt piano, subtle warm cello drone in D minor, gentle tactile foley, linen fabric rustle, soft room tone, relaxed human breathing pace at 68 bpm, organic neoclassical ambient, pure acoustic warmth, intimate close-mic recording, emotional depth without melodrama, zero electronic drums, zero synth leads, high-end cinema sound</pre>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>2. Suno v4 & Udio v1.5 (Structured Meta-Prompt)</h3>
+          <button class="btn-copy" data-target="prompt-suno">Копировать</button>
+        </div>
+        <pre id="prompt-suno">[Instrumental]
+[Genre: Neoclassical Ambient / Cinematic Documentary Score]
+[Tempo: 68 BPM, 4/4 time signature]
+[Key: D Minor transitioning to D Major resolve]
+[Instruments: Soft felt upright piano, solo acoustic cello, subtle room air foley]
+
+[0:00 - 0:12 Intro: Dm9, single slow felt piano notes over warm sub cello drone, soft clinic lamp ambiance]
+[0:12 - 0:26 Section A: Bbmaj7, piano melody warms up, gentle human breath rhythm, tender and alive]
+[0:26 - 0:39 Section B: Fadd9, confident grounded acoustic bass notes, tactile presence]
+[0:39 - 0:53 Climax: Gm9 to Asus4 emotional swell, resonant piano chords, quiet sense of freedom]
+[0:53 - 1:05 Outro: Dmaj9 warm acoustic resolution, sustained piano decay, fading into calm silence]
+
+[Negative Prompt: drums, percussion, heavy synth, brass, EDM, pop, auto-tune, vocals, aggressive, dramatic choir]</pre>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>3. ElevenLabs Music / Sound Design (Audio Bed Prompt)</h3>
+          <button class="btn-copy" data-target="prompt-eleven-music">Копировать</button>
+        </div>
+        <pre id="prompt-eleven-music">An intimate 65-second instrumental score featuring an unhurried felt piano and deep acoustic cello. Tempo 68 beats per minute. Atmospheric, organic, warm, recorded in a wooden room with subtle room reflections. Mood: honest, comforting, grounded, medically reassuring yet quietly sensual. Slowly resolves from contemplative D-minor into a bright, warm D-major finish.</pre>
       </div>
     </section>
 
