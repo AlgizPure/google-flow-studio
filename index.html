@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Google Flow Studio & Video Lab · Skinerica</title>
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#2E2A26">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+  <!-- App Header -->
+  <header class="app-header">
+    <div class="brand-badge">
+      <div class="brand-icon">GF</div>
+      <div>
+        <div class="brand-title">Google Flow Studio</div>
+        <div class="brand-sub">Living Skin · Video Lab</div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn-icon" id="theme-toggle" title="Переключить тему">
+        <span id="theme-icon">🌙</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Desktop Top Navigation -->
+  <nav class="top-nav">
+    <button class="nav-pill active" data-tab="overview">1. Обзор & Архитектура</button>
+    <button class="nav-pill" data-tab="ui_inspector">2. Аудит меню & Вкладок</button>
+    <button class="nav-pill" data-tab="custom_tools">3. Вкладка Tools & Код</button>
+    <button class="nav-pill" data-tab="prompts_master">4. Промпты & Разбор ошибок</button>
+    <button class="nav-pill" data-tab="voice_lab">5. Голос & Клонирование</button>
+    <button class="nav-pill" data-tab="chaining_scenes">6. Склейка >8s & Сцены</button>
+    <button class="nav-pill" data-tab="ultra_limits">7. Лимиты Ultra & Экономика</button>
+  </nav>
+
+  <!-- Main Container -->
+  <main class="container">
+
+    <!-- Search bar -->
+    <div style="margin-bottom: 20px;">
+      <input type="text" id="quick-search" placeholder="🔍 Поиск по инструкциям, вкладкам, параметрам и промптам...">
+    </div>
+
+    <!-- TAB 1: OVERVIEW -->
+    <section id="overview" class="tab-content active">
+      <h1>Инженерное руководство по Google Flow & Veo 3.1</h1>
+      <p class="lede">Полный операционный цикл профессиональной видеогенерации: архитектура сервиса, консистентность интерфейса, написание кастомных инструментов через код, аудит ошибок промптинга и обход лимитов длительности.</p>
+
+      <div class="alert alert-terra">
+        <div>💡</div>
+        <div>
+          <b>Главный принцип Skinerica «При свете»:</b> Мы показываем живую кожу как она есть при свете ламп и лазеров. Никакого глянца, пластика и искусственной ретуши. Пустая зона под текст слева или справа плавно растворяется в фоне и не должна деформироваться при анимации.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>Архитектурная схема взаимодействия модулей Flow</h3>
+          <span class="badge badge-sage">System Blueprint</span>
+        </div>
+        <pre>
+┌─────────────────────────────────────────────────────────────────────────┐
+│                           GOOGLE FLOW WORKSPACE                         │
+├───────────────────┬───────────────────┬─────────────────────────────────┤
+│   IMAGE ENGINE    │   VIDEO ENGINES   │       PRODUCTION SUITE          │
+│  Nano Banana Pro  │  Veo 3.1 Quality  │  Characters: @Name registry     │
+│  Keyframes & Turn │  Frames-to-Video  │  Scenes: Timeline & 8s Chaining │
+│  4:5, 3:4 plates  │  Gemini Omni 1.1  │  Tools: Custom Code Micro-apps  │
+└─────────┬─────────┴─────────┬─────────┴────────────────┬────────────────┘
+          │                   │                          │
+          ▼                   ▼                          ▼
+  [ Стартовый кадр ] ──► [ Кинематика ] ──────────► [ Чистый экспорт ]
+  (с негативным полем)  (без повтора описания)      (с нативным звуком)
+        </pre>
+      </div>
+
+      <h2>Операционная матрица моделей Google Flow</h2>
+      <div class="table-responsive">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Модель</th>
+              <th>Ключевые режимы</th>
+              <th>Разрешение</th>
+              <th>Аудио & Голос</th>
+              <th>Назначение в проекте</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>Veo 3.1 Quality</b></td>
+              <td>Text-to-Video, Frames-to-Video (1 или 2 кадра)</td>
+              <td>1080p, 4K</td>
+              <td>Нативный эмбиент, диалог в кавычках</td>
+              <td><b>Финальные мастер-клипы</b> рекламных носителей (m1–m6)</td>
+            </tr>
+            <tr>
+              <td><b>Veo 3.1 Fast</b></td>
+              <td>Ingredients to Video (до 3 референсов)</td>
+              <td>720p</td>
+              <td>Нативный звук</td>
+              <td>Быстрые драфты, проверка композиции и ракурса</td>
+            </tr>
+            <tr>
+              <td><b>Gemini Omni Flash 1.1</b></td>
+              <td>Мультимодальная правка, диалоговый рендеринг</td>
+              <td>360p, 720p</td>
+              <td><b>Клонирование голоса (Voice Ref)</b>, точный липсинк</td>
+              <td><b>Говорящая Эрика</b>, черновики за полцены, итерации</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Быстрый чек-лист перед запуском генерации</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h3>1. Подготовка ассета</h3>
+          <p style="font-size: 13.5px; color: var(--ink-72);">
+            • Кадр дополнен до 9:16 (1080×1920) или 16:9 (1920×1080).<br>
+            • Пустая зона под текст уже заложена в исходное изображение.<br>
+            • Лицо и поза утверждены по брендбуку.
+          </p>
+        </div>
+        <div class="card">
+          <h3>2. Режим генератора</h3>
+          <p style="font-size: 13.5px; color: var(--ink-72);">
+            • Выбран режим <b>Frames to Video</b>.<br>
+            • В промпте <b>удалены</b> повторные описания внешности.<br>
+            • Описано только движение, камера и поведение света.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: UI INSPECTOR -->
+    <section id="ui_inspector" class="tab-content">
+      <h1>Аудит всех элементов меню и вкладок Google Flow</h1>
+      <p class="lede">Полный разбор структуры интерфейса: назначение каждой вкладки, переключателей и скрытых настроек для обеспечения 100% повторяемости результатов.</p>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>1. Вкладка «Images» (Генерация и подготовка референсов)</h3>
+          <span class="badge badge-blue">Keyframes</span>
+        </div>
+        <p style="font-size: 13.5px; margin-bottom: 12px;">Служит для создания базовых опорных изображений, раскадровок и генерации персонажей через <b>Nano Banana Pro</b>.</p>
+        <ul style="padding-left: 20px; font-size: 13.5px; line-height: 1.7; color: var(--ink-72);">
+          <li><b>Model Selector:</b> <i>Nano Banana Pro</i> (максимальная точность, фотореализм кожи) vs <i>Nano Banana</i> (быстрые скетчи).</li>
+          <li><b>Aspect Ratio:</b> Выбор соотношения сторон (1:1, 9:16, 16:9, 4:5, 3:4). Для видео носителей Flow принимает на входе 9:16 или 16:9.</li>
+          <li><b>Reference Slots (Слоты референсов):</b> Позволяет привязать <i>Subject Ref</i> (лицо модели), <i>Style Ref</i> (палитра «При свете») и <i>Composition Ref</i>.</li>
+          <li><b>Lasso & Inpainting (Инструмент лассо):</b> Выделение маской зоны (например, пустой стены слева) для локальной генерации плавного градиента без перегенерации лица.</li>
+          <li><b>Variations:</b> Ползунок количества генераций (1–4).</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>2. Вкладка «Video» (Основной видеогенератор)</h3>
+          <span class="badge badge-terra">Motion Core</span>
+        </div>
+        <ul style="padding-left: 20px; font-size: 13.5px; line-height: 1.7; color: var(--ink-72);">
+          <li><b>Режимы ввода:</b>
+            <br>• <i>Text-to-Video:</i> Генерация из текста с нуля (не рекомендуется для Skinerica, теряется контроль стиля).
+            <br>• <i>Frames to Video:</i> <b>Основной рабочий режим!</b> Слот <code>First Frame</code> (старт) и опциональный <code>Last Frame</code> (финиш).
+            <br>• <i>Ingredients to Video:</i> Доступен в Veo Fast и Omni. До 3 тегированных файлов.
+          </li>
+          <li><b>Motion Intensity (Сила движения):</b> Числовой ползунок (1–10). Для Skinerica всегда ставить <b>2–4 (Low)</b> — микродвижения, дыхание, мягкий поворот подбородка. Значения >6 приводят к искажению анатомии.</li>
+          <li><b>Camera Controls (Управление камерой):</b> Фиксированный переключатель: <i>Static (Locked-off)</i>, <i>Slow Push-in</i>, <i>Pan Left/Right</i>, <i>Orbit</i>. Для наших креативов — только <b>Static</b> или <b>Slow Push-in</b>.</li>
+          <li><b>Resolution:</b> 360p (черновики), 720p (Omni), 1080p / 4K (Veo Quality).</li>
+          <li><b>Duration:</b> 4s, 6s, 8s (базовый лимит 8 секунд).</li>
+          <li><b>Seed Lock (Фиксация зерна):</b> Чекбокс сохранения сида для тестирования изменений в промпте без изменения динамики шума.</li>
+          <li><b>Native Audio:</b> Чекбокс генерации звука. Если включен, модель синтезирует шумы комнаты и голос из кавычек.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>3. Вкладка «Characters» (Реестр персонажей и консистентность)</h3>
+          <span class="badge badge-sage">Identity Anchor</span>
+        </div>
+        <p style="font-size: 13.5px; margin-bottom: 12px;">Позволяет закрепить постоянных героинь и реальных врачей клиники, чтобы не описывать их заново.</p>
+        <ul style="padding-left: 20px; font-size: 13.5px; line-height: 1.7; color: var(--ink-72);">
+          <li><b>New Character:</b> Создание профиля персонажа (например, <code>@Heroine_A</code>, <code>@Erica_Drawn</code>, <code>@Dr_Baranchikova</code>).</li>
+          <li><b>Multi-Angle Upload:</b> Загрузка 3 ракурсов (анфас, три четверти, профиль). Фиксирует геометрию лица и фактуру кожи.</li>
+          <li><b>Style Lock:</b> Выбор типажа: <i>Photorealistic Human</i> (для героинь и врачей) vs <i>Line Drawing</i> (для Эрики K).</li>
+          <li><b>Voice Profile:</b> Привязка аудиофайла голоса персонажа.</li>
+          <li><b>Синтаксис @Name:</b> В поле промпта достаточно напечатать <code>@Erica_Drawn</code>, и модель автоматически связывает латентные веса с карточкой персонажа.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>4. Вкладка «Scenes» (SceneBuilder & Монтажная лента)</h3>
+          <span class="badge badge-blue">Sequencing</span>
+        </div>
+        <ul style="padding-left: 20px; font-size: 13.5px; line-height: 1.7; color: var(--ink-72);">
+          <li><b>Timeline:</b> Горизонтальная дорожка для сборки длинных видео из отдельных шотов.</li>
+          <li><b>Extend Clip (+7s):</b> Ключевая функция преодоления 8-секундного барьера. Фиксирует последний кадр шот-сегмента и запускает генерацию продолжения.</li>
+          <li><b>Transition Controls:</b> Выбор типа склейки: жесткий стык (Cut), мягкое перетекание (Dissolve) или интеллектуальный морфинг.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>5. Вкладка «Uploads» (Медиа-библиотека проекта)</h3>
+          <span class="badge badge-sage">Asset Bank</span>
+        </div>
+        <p style="font-size: 13.5px; line-height: 1.6; color: var(--ink-72);">
+          Хранилище загруженных файлов: <code>Images</code> (кабинеты, аппараты, портреты), <code>Audio</code> (сэмплы голоса, фон клиники), <code>Video</code> (референсы динамики). Все ассеты поддерживают тегирование (например, <code>#krasnodar</code>, <code>#doctor</code>, <code>#device</code>).
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>6. Вкладка «Tools» (Кастомные инструменты и Code Tab)</h3>
+          <span class="badge badge-terra">Custom Code</span>
+        </div>
+        <p style="font-size: 13.5px; line-height: 1.6; color: var(--ink-72);">
+          Среда создания собственных интерактивных микро-приложений внутри Flow. Позволяет упаковать правила стиля «Живая кожа» в удобный интерфейс с готовыми полями ввода и автоматической сборкой безошибочного промпта. Подробный разбор — в следующем разделе.
+        </p>
+      </div>
+    </section>
+
+    <!-- TAB 3: CUSTOM TOOLS -->
+    <section id="custom_tools" class="tab-content">
+      <h1>Создание кастомных инструментов во вкладке Tools</h1>
+      <p class="lede">Как настроить собственный генератор под брендбук Skinerica через естественный язык и тонкий кодинг в декларативной вкладке <b>Code</b>.</p>
+
+      <div class="alert alert-sage">
+        <div>⚙️</div>
+        <div>
+          <b>Зачем нужен кастомный Tool:</b> Чтобы оператор не вспоминал каждый раз структуру промпта, негативные стоп-слова и пропорции. Кастомный инструмент дает UI с выпадающими списками услуг, привязанными персонажами и автоматической сборкой финального промпта для Veo 3.1.
+        </div>
+      </div>
+
+      <h2>Два способа создания инструмента</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Способ 1: Natural Language Prompt</h3>
+          <p style="font-size: 13.5px; color: var(--ink-72); line-height: 1.6;">
+            1. Во вкладке <b>Tools</b> нажать <b>Create Tool</b>.<br>
+            2. Ввести промпт сборщика: <i>«Create a video generator tool for Skinerica clinic. Include a scene dropdown (SMAS, Body, Laser), a character selector (@Heroine_A, @Erica), an image upload for Start Frame, and a model selector (Veo Quality vs Omni). Output prompt with locked negative space.»</i><br>
+            3. Flow создаст рабочий интерфейс и сгенерирует код.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Способ 2: Тонкий кодинг (Вкладка Code)</h3>
+          <p style="font-size: 13.5px; color: var(--ink-72); line-height: 1.6;">
+            1. В созданном инструменте переключиться на вкладку <b>Code</b>.<br>
+            2. Откроется JSON/React декларативный манифест инструмента.<br>
+            3. Вставить готовый код (представлен ниже), скорректировать логику интерполяции строк и валидацию полей.<br>
+            4. Нажать <b>Save & Deploy</b>.
+          </p>
+        </div>
+      </div>
+
+      <h2>Готовый код для вкладки Code: «Skinerica Living Skin Video Engine»</h2>
+      <div class="code-wrapper">
+        <button class="btn-copy" data-target="#custom-tool-code">Копировать код инструмента</button>
+        <pre id="custom-tool-code">{
+  "tool_id": "skinerica_living_skin_v1",
+  "name": "Skinerica Living Skin Video Engine",
+  "version": "1.0.0",
+  "description": "Brand-locked video prompt builder and model routing for Skinerica clinical advertising.",
+  "ui_schema": {
+    "sections": [
+      {
+        "title": "1. Сцена и креатив",
+        "fields": [
+          {
+            "id": "creative_type",
+            "label": "Тип сценария",
+            "type": "select",
+            "options": [
+              { "value": "m1_smas", "label": "m1 · SMAS-лифтинг (Контур при свете)" },
+              { "value": "m2_body", "label": "m2 · Сторис Тело (Без спешки)" },
+              { "value": "m3_epilation", "label": "m3 · Эпиляция (Гладко)" },
+              { "value": "m4_pigment", "label": "m4 · Пигментация (Ровный тон)" },
+              { "value": "m5_consult", "label": "m5 · Консультация (Разговор с врачом)" },
+              { "value": "m6_banner", "label": "m6 · Широкий баннер (16 лет)" },
+              { "value": "erica_speech", "label": "Эрика · Говорящий аватар" }
+            ],
+            "default": "m1_smas"
+          },
+          {
+            "id": "model_engine",
+            "label": "Модель генерации",
+            "type": "radio",
+            "options": [
+              { "value": "veo_quality", "label": "Veo 3.1 Quality (1080p/4K Финал)" },
+              { "value": "omni_flash", "label": "Gemini Omni Flash 1.1 (Липсинк/Голос)" }
+            ],
+            "default": "veo_quality"
+          }
+        ]
+      },
+      {
+        "title": "2. Опорные ассеты",
+        "fields": [
+          {
+            "id": "start_frame",
+            "label": "Стартовый кадр (Start Frame 9:16 / 16:9)",
+            "type": "image_upload",
+            "required": true
+          },
+          {
+            "id": "character_tag",
+            "label": "Тег персонажа из реестра",
+            "type": "character_picker",
+            "allowed_tags": ["@Heroine_A", "@Heroine_B", "@Heroine_C", "@Heroine_D", "@Erica_K", "@Erica_E", "@Dr_Baranchikova"]
+          }
+        ]
+      },
+      {
+        "title": "3. Динамика и параметры",
+        "fields": [
+          {
+            "id": "motion_intensity",
+            "label": "Интенсивность движения (Skinerica Canon: 2-4)",
+            "type": "slider",
+            "min": 1,
+            "max": 10,
+            "default": 3
+          },
+          {
+            "id": "camera_motion",
+            "label": "Движение камеры",
+            "type": "select",
+            "options": [
+              { "value": "locked", "label": "Locked-off Tripod (Статичный штатив)" },
+              { "value": "slow_push", "label": "Slow Imperceptible Push-in (Медленный наезд)" }
+            ],
+            "default": "locked"
+          }
+        ]
+      }
+    ]
+  },
+  "prompt_compiler": {
+    "engine": "template_interpolation",
+    "rules": {
+      "strip_static_descriptions": true,
+      "enforce_negative_space_lock": true,
+      "enforce_audio_clinic_tone": true
+    },
+    "template": "Using the provided start frame — Camera ${inputs.camera_motion === 'locked' ? 'remains locked-off on tripod' : 'performs an almost imperceptible slow push-in'}. ${inputs.character_tag} breathes calmly. ${getKinematicMotion(inputs.creative_type)}. The negative caption zone of the frame remains completely still and clean for all 8 seconds. Audio: quiet clinic room tone, no music."
+  }
+}</pre>
+      </div>
+    </section>
+
+    <!-- TAB 4: PROMPTS MASTER -->
+    <section id="prompts_master" class="tab-content">
+      <h1>Промпты & Аудит ошибок flow-prompts-v1.html</h1>
+      <p class="lede">Почему предыдущие промпты не работали в Google Flow, какие скрытые законы видеомоделей были нарушены, и готовые исправленные формулы.</p>
+
+      <div class="alert alert-terra">
+        <div>⚠️</div>
+        <div>
+          <b>6 фундаментальных причин сбоя в flow-prompts-v1.html:</b>
+          <ol style="margin-top: 8px; padding-left: 18px; line-height: 1.6;">
+            <li><b>Словесная индексация вместо UI-тегов:</b> Конструкция <i>«the first image for the woman, second for room»</i> не понимается моделью. Flow требует тегирования <code>@Character</code> через меню или единый Start Frame.</li>
+            <li><b>Конфликт режимов:</b> Попытка скормить 3 ингредиента модели <b>Veo 3.1 Quality</b>. Quality поддерживает только <i>Frames to Video</i>. Ингредиенты есть только у Veo Fast и Omni!</li>
+            <li><b>Ловушка повторного описания (Start Frame Trap):</b> Если дан стартовый кадр, <b>нельзя</b> заново описывать цвет платья, возраст и черты лица в промпте! Модель пытается перегенерировать пиксели, и лицо «плывет». Описывать нужно ТОЛЬКО кинематику (куда повернулась, как вздохнула).</li>
+            <li><b>Перегруз микро-таймкодами:</b> Текстовые интервалы <code>[00:00-00:02]</code>, <code>[00:02-00:05]</code> на 8 секундах вызывают рывки и галлюцинации. Допустимо максимум 1–2 плавных действия на шот.</li>
+            <li><b>Парадокс негативных формулировок:</b> Фраза <i>«Hands stay down, away from the face»</i> провоцирует диффузию нарисовать руки у лица. Запреты пишутся в позитивной форме: <i>«Arms rest calmly at her sides»</i>.</li>
+            <li><b>Дрифт зоны текста:</b> Попытка описать словами <i>«caption zone melts into room»</i> не работает. Пустое поле должно быть жестко заложено в исходный файл стартового кадра.</li>
+          </ol>
+        </div>
+      </div>
+
+      <h2>Интерактивный генератор рабочих промптов</h2>
+      <div class="widget-box">
+        <div class="form-group">
+          <label for="gen-scenario">Выберите сценарий носителя или аватара:</label>
+          <select id="gen-scenario">
+            <option value="m1">m1 · SMAS-лифтинг «Контур при свете» (4:5 / 9:16)</option>
+            <option value="m2">m2 · Сторис «Тело / Без спешки» (9:16)</option>
+            <option value="m3">m3 · Лазерная эпиляция «Гладко» (3:4 / 9:16)</option>
+            <option value="m4">m4 · Каталог «Пигментация / Ровный тон» (4:5 / 9:16)</option>
+            <option value="m5">m5 · Консультация «Сначала — разговор» (3:2 / 16:9)</option>
+            <option value="m6">m6 · Широкий баннер сайта «16 лет при свете» (2:1 / 16:9)</option>
+            <option value="erica_k">Эрика (K) · Рисованный аватар с речью</option>
+            <option value="erica_e">Эрика (E) · Андроид-аватар со световыми швами</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="gen-model">Целевая модель:</label>
+          <select id="gen-model">
+            <option value="veo">Veo 3.1 Quality (Кинематографичный финал)</option>
+            <option value="omni">Gemini Omni Flash 1.1 (Липсинк / Драфт с правками)</option>
+          </select>
+        </div>
+
+        <div id="gen-meta" style="margin-bottom: 14px; padding: 12px; background: var(--milk-card); border-radius: 8px; border: 1px solid var(--line);"></div>
+
+        <div class="code-wrapper">
+          <button class="btn-copy" data-target="#gen-output">Копировать промпт</button>
+          <pre id="gen-output" style="min-height: 120px; font-size: 13px;"></pre>
+        </div>
+      </div>
+
+      <h2>Золотая формула промпта для Veo 3.1 (Frames to Video)</h2>
+      <div class="card">
+        <pre>Using the provided start frame — [ПЛАН И ПОЛОЖЕНИЕ СУБЪЕКТА В КАДРЕ].
+Camera [СТАТИЧНЫЙ ШТАТИВ ИЛИ МИКРО-НАЕЗД].
+[ОДНО ПЛАВНОЕ КИНЕМАТИЧЕСКОЕ ДЕЙСТВИЕ: поворот подбородка / дыхание / спокойный взгляд].
+[ПОВЕДЕНИЕ СВЕТА НА СКУЛЕ И КОНТУРЕ ЛИЦА].
+The [LEFT / RIGHT] caption zone remains completely still, clean and motionless for all 8 seconds.
+Audio: quiet clinic room tone, no music.</pre>
+      </div>
+    </section>
+
+    <!-- TAB 5: VOICE LAB -->
+    <section id="voice_lab" class="tab-content">
+      <h1>Голос бренда & Клонирование для Эрики</h1>
+      <p class="lede">Создание, загрузка, настройка и сохранение эталонного голоса Эрики для стабильного воспроизведения от модели к модели.</p>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>Акустический паспорт голоса Эрики</h3>
+          <span class="badge badge-sage">Voice Blueprint</span>
+        </div>
+        <ul style="padding-left: 20px; font-size: 13.5px; line-height: 1.7; color: var(--ink-72);">
+          <li><b>Тембр:</b> Теплый женский голос, возраст 30–35 лет, мягкая грудная подача.</li>
+          <li><b>Тон:</b> Документальный, эмпатичный коллега. Без слащавости, без интонаций автоответчика или агрессивного сейлза.</li>
+          <li><b>Темп:</b> Спокойный, неторопливый (~110–120 слов в минуту). Разборчивые паузы между смысловыми блоками.</li>
+          <li><b>Акустическая среда:</b> Сухая комната без реверберации и эха, деликатный шелест бумаги.</li>
+        </ul>
+      </div>
+
+      <h2>Пошаговый процесс настройки собственного голоса во Flow</h2>
+      <div class="rules">
+        <div class="rule">
+          <b>Шаг 1: Подготовка эталонного аудио-якоря (Audio Anchor)</b>
+          <p>Записать 20–30 секунд чистой речи диктора в формате WAV (48 кГц, 24 бит, моно). Без музыки и компрессии. Текст записи — слоган бренда («Мы смотрим на кожу при свете...»).</p>
+        </div>
+        <div class="rule">
+          <b>Шаг 2: Загрузка в Uploads</b>
+          <p>В панели <b>Uploads</b> выбрать вкладку <b>Audio</b> и загрузить <code>erica_master_voice_v1.wav</code>. Присвоить тег <code>#voice_anchor</code>.</p>
+        </div>
+        <div class="rule">
+          <b>Шаг 3: Привязка к персонажу в Characters</b>
+          <p>Открыть карточку персонажа <code>@Erica_Drawn</code> или <code>@Erica_Droid</code>. В секции <i>Voice Profile</i> привязать загруженный аудиофайл. Сохранить персонажа.</p>
+        </div>
+        <div class="rule">
+          <b>Шаг 4: Использование в генераторе</b>
+          <p>В <b>Gemini Omni Flash 1.1</b> модель автоматически подхватывает аудио-референс персонажа для липсинка. В <b>Veo 3.1</b> пишется реплика в кавычках, и тег <code>@Erica</code> направляет интонационный контур.</p>
+        </div>
+      </div>
+
+      <h2>Слоганы Эрики для генерации речи (ТоВ v3.1)</h2>
+      <div class="card">
+        <ul style="padding-left: 20px; font-size: 13.5px; line-height: 1.8;">
+          <li><b>Флагман:</b> <i>«Я Эрика, из Skinerica. Мы смотрим на кожу при свете — и показываем её как есть. Настоящее к лицу.»</i></li>
+          <li><b>Доказательный:</b> <i>«Мы не обещаем — показываем. Один свет, один ракурс, до и после. Результат не на словах, а на теле.»</i></li>
+          <li><b>Право на красоту:</b> <i>«Красота по праву. Ваша кожа — ваша, и какой ей быть, решаете вы. Мы рядом, чтобы посмотреть вместе.»</i></li>
+          <li><b>Забота:</b> <i>«Чувствовать себя красиво — это про то, как вам с собой утром. Я подскажу, когда пора к врачу, — и не буду торопить.»</i></li>
+          <li><b>Заслуженная красота:</b> <i>«Кожа помнит заботу и время. То, что вы видите в зеркале, — не удача. Не повезло, а заслужила.»</i></li>
+          <li><b>Диагностика:</b> <i>«Кожа подсказывает раньше слов. Покажите, что беспокоит, — я запишу к врачу, и он посмотрит при свете.»</i></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- TAB 6: CHAINING & SCENES -->
+    <section id="chaining_scenes" class="tab-content">
+      <h1>Склейка длинных видео (>8 секунд) & Вкладка Scenes</h1>
+      <p class="lede">Методика непрерывного продления шотов с сохранением лица, света и окружения без артефактов морфинга.</p>
+
+      <div class="alert alert-blue">
+        <div>⏱️</div>
+        <div>
+          <b>Ограничение моделей:</b> Базовый шот Veo 3.1 генерирует максимум 8 секунд. Создание роликов на 15, 30 или 60 секунд строится на цепочке склеек, где каждый следующий сегмент берет за основу последний кадр предыдущего.
+        </div>
+      </div>
+
+      <h2>Метод 1: Нативный SceneBuilder Extend (+7 секунд)</h2>
+      <div class="card">
+        <ol style="padding-left: 20px; font-size: 13.5px; line-height: 1.7; color: var(--ink-72);">
+          <li>Сгенерировать первый базовый клип (0–8 с) во вкладке <b>Video</b>.</li>
+          <li>Навести на готовый клип и нажать <b>Add to Scene</b> (клип падает на таймлайн вкладки <i>Scenes</i>).</li>
+          <li>На конце клипа нажать иконку <b>Extend (+)</b>.</li>
+          <li>Система автоматически фиксирует <code>Last Frame</code> предыдущего клипа как <code>First Frame</code> для следующего сегмента длиной 7 секунд.</li>
+          <li><b>ПРАВИЛО ПРОМПТА ПРОДЛЕНИЯ:</b> Не переписывать сцену! Описывать исключительно продолжение кинематики:
+            <br><i>«She completes the smile, turns her gaze back to the camera, and holds a calm stillness. Camera remains stationary.»</i>
+          </li>
+        </ol>
+      </div>
+
+      <h2>Метод 2: Ручной точный чейнинг (Frame-to-Video Precision)</h2>
+      <div class="card">
+        <p style="font-size: 13.5px; line-height: 1.6; color: var(--ink-72); margin-bottom: 12px;">
+          Используется в случаях, когда SceneBuilder дает слишком резкую смену освещения или если требуется гарантированный переход в конкретную позу.
+        </p>
+        <ol style="padding-left: 20px; font-size: 13.5px; line-height: 1.7; color: var(--ink-72);">
+          <li>В плеере клипа 1 сделать экспорт последнего кадра: <code>clip1_last_frame.png</code>.</li>
+          <li>Открыть вкладку <b>Video</b>, режим <b>Frames to Video</b>.</li>
+          <li>Поместить <code>clip1_last_frame.png</code> в слот <b>First Frame</b>.</li>
+          <li>Если есть целевая поза финала, поместить ее в <b>Last Frame</b> (модель плавно интерполирует движение между ними).</li>
+          <li>Сгенерировать сегмент 2 на 8 секунд.</li>
+          <li>Соединить сегменты на таймлайне с жесткой склейкой (0-frame jump cut).</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- TAB 7: ULTRA LIMITS -->
+    <section id="ultra_limits" class="tab-content">
+      <h1>Экономика подписки Google AI Ultra & Лимиты</h1>
+      <p class="lede">Баланс кредитов, скидки, скорость генерации, суточные ограничения (velocity governors) и стратегия минимизации затрат.</p>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>Тарифная сетка Google AI & Кредиты Flow</h3>
+          <span class="badge badge-terra">Subscription Matrix</span>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Тариф</th>
+                <th>Стоимость</th>
+                <th>Кредиты в месяц</th>
+                <th>Стоимость клипа 8s</th>
+                <th>Выход готовых видео</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>Free</b></td>
+                <td>$0</td>
+                <td>50 в день (сгорают)</td>
+                <td>100 кредитов</td>
+                <td>0.5 клипа / день (только драфты)</td>
+              </tr>
+              <tr>
+                <td><b>Google AI Plus</b></td>
+                <td>$7.99/мес</td>
+                <td>+200 / мес</td>
+                <td>100 кредитов</td>
+                <td>~2 клипа Veo Quality</td>
+              </tr>
+              <tr>
+                <td><b>Google AI Pro</b></td>
+                <td>$19.99/мес</td>
+                <td>+1,000 / мес</td>
+                <td>100 кредитов</td>
+                <td>~10 клипов Veo Quality</td>
+              </tr>
+              <tr>
+                <td><b>Google AI Ultra (Tier 1)</b></td>
+                <td>$100/мес</td>
+                <td><b>+10,000 / мес</b></td>
+                <td><b>50 кредитов (Скидка 50%)</b></td>
+                <td><b>~200 клипов Veo Quality</b></td>
+              </tr>
+              <tr>
+                <td><b>Google AI Ultra (Tier 2)</b></td>
+                <td>$200/мес</td>
+                <td><b>+25,000 / мес</b></td>
+                <td><b>50 кредитов (Скидка 50%)</b></td>
+                <td><b>~500 клипов Veo Quality</b></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <h2>Ключевые привилегии и скрытые лимиты Ultra</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Скидка 50% («Half-Price Generations»)</h3>
+          <p style="font-size: 13.5px; color: var(--ink-72); line-height: 1.6;">
+            Подписчики Ultra генерируют видео в Veo 3.1 Quality со списанием <b>50 кредитов</b> вместо стандартных 100. Это фактически удваивает ценность подписки. Драфты в 360p списывают всего 10–15 кредитов.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Параллельность и суточные квоты (Velocity Governor)</h3>
+          <p style="font-size: 13.5px; color: var(--ink-72); line-height: 1.6;">
+            • Параллельные генерации: <b>3–4 одновременных задачи</b> (против 1 у Free/Pro).<br>
+            • Троттлинг: При запуске более 40–50 генераций 4K подряд в течение 2 часов система переводит аккаунт из Ultra Priority Queue в Standard Queue (время рендера вырастает с 45 с до 5 минут).<br>
+            • Переключение на драфты 360p полностью снимает троттлинг.
+          </p>
+        </div>
+      </div>
+
+      <h2>3-фазный пайплайн студийной оптимизации</h2>
+      <div class="card">
+        <ol style="padding-left: 20px; font-size: 13.5px; line-height: 1.7; color: var(--ink-72);">
+          <li><b>Фаза 1: Композиция (1 кредит)</b> — Отработка ракурса и фона в Nano Banana Pro (Images). Заморозка утвержденного стартового кадра.</li>
+          <li><b>Фаза 2: Проверка кинематики (10 кредитов)</b> — Быстрый запуск в Gemini Omni Flash (360p). Проверка, что глаза, пальцы и контур лица не искажаются при движении.</li>
+          <li><b>Фаза 3: Мастер-рендеринг (50 кредитов)</b> — Запуск в Veo 3.1 Quality (1080p). Получение финального коммерческого мастера.</li>
+        </ol>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Mobile Bottom Navigation Bar -->
+  <nav class="bottom-nav">
+    <button class="bnav-item active" data-tab="overview">
+      <span class="bnav-icon">🏠</span>
+      <span>Обзор</span>
+    </button>
+    <button class="bnav-item" data-tab="ui_inspector">
+      <span class="bnav-icon">📋</span>
+      <span>Меню</span>
+    </button>
+    <button class="bnav-item" data-tab="custom_tools">
+      <span class="bnav-icon">⚡</span>
+      <span>Tools</span>
+    </button>
+    <button class="bnav-item" data-tab="prompts_master">
+      <span class="bnav-icon">✨</span>
+      <span>Промпты</span>
+    </button>
+    <button class="bnav-item" data-tab="voice_lab">
+      <span class="bnav-icon">🎙️</span>
+      <span>Голос</span>
+    </button>
+  </nav>
+
+  <script src="./app.js"></script>
+</body>
+</html>
