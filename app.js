@@ -75,7 +75,7 @@ function initCopyButtons() {
     let textToCopy = '';
 
     if (targetSelector) {
-      const el = document.querySelector(targetSelector);
+      const el = document.getElementById(targetSelector) || document.querySelector(targetSelector) || document.getElementById(targetSelector.replace(/^#/, ''));
       if (el) textToCopy = el.innerText || el.textContent;
     } else {
       const pre = btn.closest('.code-wrapper')?.querySelector('pre, code');

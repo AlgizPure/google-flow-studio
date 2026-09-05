@@ -36,6 +36,9 @@
     <button class="nav-pill" data-tab="chaining_scenes">6. Склейка >8s & Сцены</button>
     <button class="nav-pill" data-tab="ultra_limits">7. Лимиты Ultra & Экономика</button>
     <button class="nav-pill" data-tab="flow_music">8. Flow Music & Саундтрек</button>
+    <button class="nav-pill" data-tab="flow_workflow_2026">9. Реальный Workflow 2026</button>
+    <button class="nav-pill" data-tab="manifesto_voice_studio">10. Озвучка Манифеста (ToV v4)</button>
+    <button class="nav-pill" data-tab="manifesto_master_script">11. Мастер-сценарий & Раскадровка</button>
   </nav>
 
   <!-- Main Container -->
@@ -687,6 +690,508 @@ Audio: quiet clinic room tone, no music.</pre>
       </div>
     </section>
 
+  
+    <!-- TAB 9: REAL FLOW WORKFLOW 2026 -->
+    <section id="flow_workflow_2026" class="tab-content">
+      <div class="card-header" style="margin-bottom: 24px;">
+        <div>
+          <h1>Реальный продакшн-пайплайн Google Flow (flow.google · 2026)</h1>
+          <p class="lede">Официальная архитектура интерфейса на основе технической документации Google Help (support.google.com/flow) и аудита Perplexity Research. Никаких выдуманных нод: реальные кнопки, слоты кадровой привязки и сборка сцен.</p>
+        </div>
+        <span class="badge badge-sage">Verified 2026 Spec</span>
+      </div>
+
+      <div class="alert alert-terra">
+        <div>🔍</div>
+        <div>
+          <b>Ключевые факты исследования интерфейса (Февраль–Сентябрь 2026):</b><br>
+          1. <b>Google Flow НЕ является нодовой системой (типа ComfyUI):</b> В веб-интерфейсе нет проводов и соединительных стрелок. Работа идет через центральную сетку ассетов (Asset Grid), нижнюю строку промпта с кнопками прикрепления медиа и монтажную ленту <b>Scenebuilder</b>.<br>
+          2. <b>В Google Flow НЕТ импорта стороннего звука (WAV/MP3):</b> Модели Veo генерируют звук только из текста промпта (интершум, диалог). Внешний мастер-звук накладывается на скачанный MP4 снаружи.<br>
+          3. <b>Статус Google MusicFX:</b> Инструмент закрыт Google Labs в июле 2026 и выделен в отдельный сервис flowmusic.google. Прямой интеграции проектов Flow и MusicFX не предусмотрено.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>Анатомическая карта интерфейса flow.google</h3>
+          <span class="badge badge-sage">UI Blueprint 2026</span>
+        </div>
+        <pre>
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│  flow.google — ЕДИНАЯ ВЕБ-СТУДИЯ ВИДЕОПРОДАКШНА                                        │
+├──────────────┬────────────────────────────────────────────────────────┬────────────────┤
+│ ЛЕВАЯ ПАНЕЛЬ │ ВЕРХНЯЯ ПАНЕЛЬ: [🔍 Поиск...] [Filters ▼] [Settings ⚙] │ [Export / More]│
+│ (Медиатека)  ├────────────────────────────────────────────────────────┴────────────────┤
+│              │ ЦЕНТРАЛЬНАЯ РАБОЧАЯ ОБЛАСТЬ                                            │
+│ • All media  │ • Asset Grid: Сетка всех сгенерированных дублей и изображений          │
+│ • Images     │ • Batch Mode: Режим последовательного пакетного просмотра              │
+│ • Videos     │ • Scenebuilder: Таймлайн-монтаж (More → Add to Scene)                  │
+│ • Characters │                                                                        │
+│ • Scenes     │                                                                        │
+│ • Uploads    │                                                                        │
+├──────────────┴────────────────────────────────────────────────────────────────────────┤
+│ СТРОКА ГЕНЕРАЦИИ (ВНИЗУ ЭКРАНА):                                                      │
+│ [ Селектор: Video ▾ ]  [ + Add start frame ]  [ + Add end frame ]                     │
+│ [ Промпт: Enter cinematic action, camera motion, lighting...                        ] │
+│ [ 16:9 / 9:16 ]  [ Модель: Veo 3.1 Quality ▾ ]  [ Duration: 8s ]  [ ⭐ Generate ]      │
+└────────────────────────────────────────────────────────────────────────────────────────┘
+        </pre>
+      </div>
+
+      <h2>4 функциональные зоны интерфейса flow.google</h2>
+      <div class="table-responsive">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Зона экрана</th>
+              <th>Элементы и кнопки</th>
+              <th>Назначение в продакшне Манифеста</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>1. Левая навигация (Rail)</b></td>
+              <td><code>All media</code>, <code>Images</code>, <code>Videos</code>, <code>Characters</code>, <code>Scenes</code>, <code>Uploads</code></td>
+              <td>Папка <code>Characters</code> хранит утвержденных героинь (вызов через <code>@Heroine_A</code>). В <code>Uploads</code> загружаются исходные снимки из flow-kit.</td>
+            </tr>
+            <tr>
+              <td><b>2. Селектор режима промпта</b></td>
+              <td>Выпадающее меню: <code>Video → Frames</code> или <code>Video → Ingredients</code></td>
+              <td><b>Video → Frames:</b> дает слоты <code>+ Add start frame</code> и <code>+ Add end frame</code>. Идеально для удержания стартового ракурса без галлюцинаций лица.</td>
+            </tr>
+            <tr>
+              <td><b>3. Карточка клипа в сетке</b></td>
+              <td>Кнопки по ховеру: <code>Extend</code>, <code>Save frame</code>, <code>More (три точки)</code></td>
+              <td><code>More → Add to Scene</code> отправляет шот в монтажную ленту. <code>Extend</code> добавляет +секунды Veo к существующему клипу. <code>Save frame</code> сохраняет идеальный стоп-кадр.</td>
+            </tr>
+            <tr>
+              <td><b>4. Scenebuilder</b></td>
+              <td>Монтажная линейка эпизодов, Trim handles (ручки обрезки), кнопка <code>Download scene</code></td>
+              <td>Сборка 5 шотов манифеста в бесшовную 65-секундную последовательность с последующим скачиванием полного видео MP4.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Пошаговый регламент работы в Scenebuilder</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h3>1. Генерация шота с удержанием первого кадра</h3>
+          <p style="font-size: 13.5px; color: var(--ink-72); line-height: 1.6;">
+            1. В нижней строке переключите режим на <b>Video → Frames</b>.<br>
+            2. Нажмите <b>«+ Add start frame»</b> и выберите фото из папки <code>01-visual-assets/</code>.<br>
+            3. Слот <code>+ Add end frame</code> оставьте пустым.<br>
+            4. Введите кинематический промпт (камера + свет) и нажмите <b>Generate</b>.<br>
+            5. Повторите для всех 5 сцен манифеста.
+          </p>
+        </div>
+        <div class="card">
+          <h3>2. Сборка и экспорт цельного фильма</h3>
+          <p style="font-size: 13.5px; color: var(--ink-72); line-height: 1.6;">
+            1. Наведите курсор на готовый клип 1 $ightarrow$ нажмите <b>More → Add to Scene</b>.<br>
+            2. Добавьте последовательно клипы 2, 3, 4 и 5.<br>
+            3. Откройте <b>Scenebuilder</b> в левой панели (раздел Scenes).<br>
+            4. Выровняйте порядок клипов перетаскиванием и подрежьте стыки ручками.<br>
+            5. Нажмите <b>Download scene</b> для получения финального MP4 в 1080p/4K.
+          </p>
+        </div>
+      </div>
+
+      <h2>Чистый аудио-пайплайн: Обход ограничений Flow</h2>
+      <div class="card">
+        <div class="card-header">
+          <h3>Как соединить видео из Flow с фирменным саундтреком</h3>
+          <span class="badge badge-terra">Production Audio Pipeline</span>
+        </div>
+        <p style="font-size: 13.5px; color: var(--ink-72); line-height: 1.6; margin-bottom: 12px;">
+          Поскольку Google Flow не поддерживает загрузку внешних аудиофайлов на таймлайн, используйте стандартный двухэтапный кинопайплайн:
+        </p>
+        <ol style="padding-left: 20px; font-size: 13.5px; line-height: 1.7; color: var(--ink-72);">
+          <li><b>В Google Flow:</b> В настройках проекта (Settings ⚙) включите пункт <b>«Return silent videos»</b>. Это предотвратит генерацию случайного фонового шума нейросетью.</li>
+          <li><b>Скачивание видео:</b> Экспортируйте собранный 65-секундный видеоряд из Scenebuilder через кнопку <b>Download scene</b>.</li>
+          <li><b>Сведение в редакторе:</b> Откройте CapCut, DaVinci Resolve или Premiere. Положите видеофайл на дорожку V1. Положите <code>flow_music_living_skin_v1.wav</code> на дорожку A1, а голос Эрики на A2.</li>
+          <li><b>Идеальное совпадение:</b> За счет точного расчета темпа (68 BPM) и хронометража пауз аккорды музыки и слова манифеста сойдутся с переключениями сцен с точностью до кадра.</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- TAB 10: MANIFESTO VOICE STUDIO -->
+    <section id="manifesto_voice_studio" class="tab-content">
+      <div class="card-header" style="margin-bottom: 24px;">
+        <div>
+          <h1>Студия озвучки Манифеста v3.1: Голос бренда (Tone of Voice v4)</h1>
+          <p class="lede">Фундаментальная режиссура голоса бренда Skinerica. Канон роли «Врач, который умеет любоваться», 16 лет сети, правки Елены, интонационная сетка дыхания и готовые пресеты для ElevenLabs и SSML.</p>
+        </div>
+        <span class="badge badge-sage">Voice Director v4</span>
+      </div>
+
+      <!-- Voice Anchor Player -->
+      <div class="card" style="border: 2px solid var(--sage); margin-bottom: 24px;">
+        <div class="card-header">
+          <div>
+            <h3>🎙️ Эталонный голос Эрики (Voice Reference Anchor)</h3>
+            <p style="font-size: 13px; color: var(--ink-72); margin-top: 4px;">Синтезировано в соответствии с ToV v4: глубокий грудной регистр, теплее среднего, без сюсюканья и автоответчика (WAV 48kHz)</p>
+          </div>
+          <span class="badge badge-sage">Voice Reference</span>
+        </div>
+        <div style="margin: 20px 0; background: var(--milk-panel); padding: 16px 20px; border-radius: 12px;">
+          <audio controls style="width: 100%; border-radius: 8px;" src="./erica_voice_anchor_v1.wav">
+            Ваш браузер не поддерживает аудио элемент.
+          </audio>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px; font-size: 12.5px; color: var(--ink-72);">
+            <span>Формат: WAV 48kHz PCM Mono · Голос Эрики</span>
+            <a href="./erica_voice_anchor_v1.wav" download class="btn-copy" style="text-decoration: none; padding: 6px 14px; background: var(--sage); color: #fff;">Скачать WAV-эталон</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tone of Voice Core Rules -->
+      <h2>Кодекс голоса бренда Skinerica (ToV v4)</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Кто говорит: Врач, который умеет любоваться</h3>
+          <ul style="padding-left: 18px; font-size: 13.5px; line-height: 1.7; color: var(--ink-72);">
+            <li><b>16 лет опыта:</b> Шестнадцать лет смотрит на кожу при свете ламп и лазеров, вблизи, — и не устал восхищаться тем, как она живет и отвечает.</li>
+            <li><b>Оси тона:</b> Теплее среднего · Прямее среднего · Чувственнее среднего.</li>
+            <li><b>Скрытая сексуальность фоном:</b> Природное желание нравиться себе — как дыхание. Оно просачивается в интонацию («тебе идёт», «желанная», «сейчас»), как цемент между кирпичами, но никогда не становится темой и центром рекламы.</li>
+            <li><b>Документальный реализм:</b> Показывает, а не расхваливает. Тепло — без сюсюканья, прямота — без жесткости. Знает цену свету: он не льстит, и поэтому комплимент этого голоса — настоящий.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Строгий бан-лист (Нарушение = Брак озвучки)</h3>
+          <ul style="padding-left: 18px; font-size: 13.5px; line-height: 1.7; color: var(--ink-72);">
+            <li>❌ <b>«Без фильтров»</b> — строго запрещено дословно (чужой слоган). Заменяется на «при свете», «как есть».</li>
+            <li>❌ <b>Язык войны с возрастом:</b> «стереть годы», «минус 10 лет», «борьба со старением». Вместо этого: «расцветать и созревать» (строго в таком порядке!).</li>
+            <li>❌ <b>Глянцевый пафос:</b> «идеальная кожа», «безупречный образ». У нас — живая фактурная кожа с порами.</li>
+            <li>❌ <b>Сделанный эротизм:</b> придыхания, сексуализация в лоб, зовущие интонации.</li>
+            <li>❌ <b>Интонации автоответчика:</b> корпоративная бодрость, скороговорка, шаблонная вежливость.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Canonical Text -->
+      <h2>Канонический текст Манифеста v3.1 (С утвержденными правками Елены)</h2>
+      <div class="card" style="background: var(--graphite); color: var(--milk); border-radius: 18px; padding: 30px;">
+        <div style="font-family: ui-monospace, monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--sage); margin-bottom: 20px;">
+          Манифест · Канонический текст для диктора
+        </div>
+        <div style="font-family: var(--font-ser); font-size: 26px; font-weight: 600; margin-bottom: 24px; color: var(--milk);">
+          «Кожа живая. Красота настоящая.»
+        </div>
+        
+        <div style="font-family: var(--font-ser); font-size: 17.5px; line-height: 1.75; color: rgba(245,241,234,0.9);">
+          <p style="margin-bottom: 20px;">
+            <b>Шестнадцать лет</b> мы смотрим на кожу при свете — свете ламп и лазеров, в кабинете, вблизи. Этот свет не льстит. Он показывает кожу <em>как есть</em>.
+          </p>
+          <p style="margin-bottom: 20px;">
+            За эти годы мы выучили о коже главное: <b>она живая</b>. Она отвечает на свет, на прикосновение, на внимание, <b>на заботу</b>. Возраст ей не враг — кожа умеет не сдаваться, а <b>расцветать и созревать</b>. Мы помогаем ей в этом, сохраняя твою <b>естественность</b> и твою <b>уникальность</b>.
+          </p>
+          <p style="margin-bottom: 20px;">
+            Поэтому мы обещаем не чудо, а <b>результат — не на словах, а на теле</b>. Его видно при свете. Его чувствуешь на ощупь. Он тебе идёт.
+          </p>
+          <p style="margin-bottom: 20px;">
+            Желание нравиться себе — природное, как дыхание: его не нужно объяснять и не нужно заслуживать. <b>Красота по праву.</b> И не когда-нибудь, а сейчас: чувствовать себя красиво.
+          </p>
+          <p style="margin-bottom: 26px;">
+            Натуральность для нас — не лозунг, а способ смотреть: на кожу, на человека, на результат.
+          </p>
+          <div style="font-size: 24px; font-style: italic; color: var(--terra); font-weight: 500;">
+            Настоящее к лицу
+          </div>
+        </div>
+      </div>
+
+      <!-- Phonetic & Breathing Score -->
+      <h2>Интонационная сетка и дыхание (Phonetic & Breathing Map)</h2>
+      <div class="card">
+        <div class="card-header">
+          <h3>Режиссерская партитура пауз для диктора</h3>
+          <button class="btn-copy" data-target="phonetic-script">Копировать партитуру</button>
+        </div>
+        <pre id="phonetic-script" style="font-size: 13px; line-height: 1.8;">[Начало · Темп: 110 wpm · Низкий теплый грудной регистр · Близкий микрофон]
+
+[Мягкий вдох]
+Шестнадцать лет мы смотрим на кожу при свете... (пауза 350мс)
+— свете ламп и лазеров, (пауза 200мс)
+в кабинете, (пауза 200мс)
+вблизи. (пауза 400мс)
+Этот свет не льстит. (пауза 450мс)
+Он показывает кожу [акцент] как есть. (пауза 600мс)
+
+[Спокойный вдох]
+За эти годы мы выучили о коже главное: (пауза 300мс)
+[мягкое замедление] она живая. (пауза 400мс)
+Она отвечает на свет, (пауза 200мс)
+на прикосновение, (пауза 200мс)
+на внимание, (пауза 250мс)
+на заботу. (пауза 350мс)
+Возраст ей не враг (пауза 300мс)
+— кожа умеет не сдаваться, (пауза 200мс)
+а [тепло] расцветать и созревать. (пауза 350мс)
+Мы помогаем ей в этом, (пауза 250мс)
+сохраняя твою естественность (пауза 200мс)
+и твою уникальность. (пауза 650мс)
+
+[Глубокий вдох]
+Поэтому мы обещаем не чудо, (пауза 250мс)
+а результат (пауза 300мс)
+— не на словах, (пауза 200мс)
+а [уверенно, веско] на теле. (пауза 400мс)
+Его видно при свете. (пауза 350мс)
+Его чувствуешь на ощупь. (пауза 350мс)
+[интимная полуулыбка] Он тебе идёт. (пауза 600мс)
+
+[Легкий вдох]
+Желание нравиться себе — природное, как дыхание: (пауза 350мс)
+его не нужно объяснять (пауза 200мс)
+и не нужно заслуживать. (пауза 350мс)
+[главный смысловой пик] Красота по праву. (пауза 450мс)
+И не когда-нибудь, (пауза 200мс)
+а сейчас: (пауза 300мс)
+чувствовать себя красиво. (пауза 700мс)
+
+[Спокойный выдох, тишина]
+Натуральность для нас — не лозунг, (пауза 250мс)
+а способ смотреть: (пауза 250мс)
+на кожу, (пауза 200мс)
+на человека, (пауза 200мс)
+на результат. (пауза 500мс)
+
+[Финальный флагманский слоган · Бархатный спад тона на 5%]
+Настоящее к лицу. (пауза 1500мс)</pre>
+      </div>
+
+      <!-- Engine Configurations -->
+      <h2>Пресеты для генеративных систем озвучки</h2>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <h3>1. ElevenLabs Voice Design (Промпт генерации)</h3>
+            <button class="btn-copy" data-target="prompt-el-design">Копировать</button>
+          </div>
+          <pre id="prompt-el-design">A professional Slavic female voice in her mid-30s, embodying a documentary doctor who admires natural skin. Deep chest resonance, warm velvety undertones, calm and unhurried delivery at 110 words per minute. Subtle sensuality woven as a natural background tone, intimate proximity to a high-end condenser microphone. Articulate, grounded, devoid of synthetic cheerfulness, corporate stiffness, or patronizing intonations. Sounding honest, caring, direct, and aesthetically sophisticated.</pre>
+          <div style="margin-top: 10px; font-size: 12.5px; color: var(--ink-72);">
+            <b>Параметры движка:</b> Stability: <code>0.58</code> | Clarity: <code>0.82</code> | Style Exaggeration: <code>0.15</code> | Speaker Boost: <code>ON</code>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>2. Gemini 2.0 Flash Audio / Live (System Prompt)</h3>
+            <button class="btn-copy" data-target="prompt-gemini-audio">Копировать</button>
+          </div>
+          <pre id="prompt-gemini-audio">You are Erica, the voice of Skinerica aesthetic clinics.
+Tone of Voice: A clinical doctor in her mid-30s who knows how to admire skin close-up. Warm, direct, calm, documentary-honest.
+Acoustics: Low chest register, close microphone proximity, warm vocal fry on endings, unhurried pacing (110 words/min).
+Never sound cheerful like an IVR assistant. Never sound glamorous or dramatic. Speak with deep medical composure and subtle, natural background warmth.</pre>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>3. Полный XML SSML документ (Для Azure Speech / Edge TTS / Google TTS)</h3>
+          <button class="btn-copy" data-target="ssml-code">Копировать SSML</button>
+        </div>
+        <pre id="ssml-code">&lt;speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="ru-RU"&gt;
+  &lt;voice name="ru-RU-SvetlanaNeural"&gt;
+    &lt;prosody rate="92%" pitch="-3%"&gt;
+      &lt;p&gt;
+        &lt;s&gt;Шестнадцать лет мы смотрим на кожу при свете &lt;break time="350ms"/&gt; — свете ламп и лазеров, &lt;break time="200ms"/&gt; в кабинете, &lt;break time="200ms"/&gt; вблизи.&lt;/s&gt;
+        &lt;s&gt;Этот свет не льстит. &lt;break time="450ms"/&gt; Он показывает кожу &lt;emphasis level="moderate"&gt;как есть&lt;/emphasis&gt;.&lt;/s&gt;
+      &lt;/p&gt;
+      &lt;break time="600ms"/&gt;
+      &lt;p&gt;
+        &lt;s&gt;За эти годы мы выучили о коже главное: &lt;break time="300ms"/&gt; она живая.&lt;/s&gt;
+        &lt;s&gt;Она отвечает на свет, &lt;break time="200ms"/&gt; на прикосновение, &lt;break time="200ms"/&gt; на внимание, &lt;break time="250ms"/&gt; на заботу.&lt;/s&gt;
+        &lt;s&gt;Возраст ей не враг &lt;break time="300ms"/&gt; — кожа умеет не сдаваться, &lt;break time="200ms"/&gt; а расцветать и созревать.&lt;/s&gt;
+        &lt;s&gt;Мы помогаем ей в этом, &lt;break time="250ms"/&gt; сохраняя твою естественность &lt;break time="200ms"/&gt; и твою уникальность.&lt;/s&gt;
+      &lt;/p&gt;
+      &lt;break time="650ms"/&gt;
+      &lt;p&gt;
+        &lt;s&gt;Поэтому мы обещаем не чудо, &lt;break time="250ms"/&gt; а результат &lt;break time="300ms"/&gt; — не на словах, &lt;break time="200ms"/&gt; а &lt;emphasis level="moderate"&gt;на теле&lt;/emphasis&gt;.&lt;/s&gt;
+        &lt;s&gt;Его видно при свете. &lt;break time="350ms"/&gt; Его чувствуешь на ощупь. &lt;break time="350ms"/&gt; Он тебе идёт.&lt;/s&gt;
+      &lt;/p&gt;
+      &lt;break time="600ms"/&gt;
+      &lt;p&gt;
+        &lt;s&gt;Желание нравиться себе — природное, как дыхание: &lt;break time="350ms"/&gt; его не нужно объяснять &lt;break time="200ms"/&gt; и не нужно заслуживать.&lt;/s&gt;
+        &lt;s&gt;&lt;emphasis level="strong"&gt;Красота по праву.&lt;/emphasis&gt;&lt;/s&gt;
+        &lt;s&gt;И не когда-нибудь, &lt;break time="200ms"/&gt; а сейчас: &lt;break time="300ms"/&gt; чувствовать себя красиво.&lt;/s&gt;
+      &lt;/p&gt;
+      &lt;break time="700ms"/&gt;
+      &lt;p&gt;
+        &lt;s&gt;Натуральность для нас — не лозунг, &lt;break time="250ms"/&gt; а способ смотреть: &lt;break time="250ms"/&gt; на кожу, &lt;break time="200ms"/&gt; на человека, &lt;break time="200ms"/&gt; на результат.&lt;/s&gt;
+        &lt;break time="500ms"/&gt;
+        &lt;s&gt;&lt;prosody pitch="-5%" rate="88%"&gt;Настоящее к лицу.&lt;/prosody&gt;&lt;/s&gt;
+      &lt;/p&gt;
+    &lt;/prosody&gt;
+  &lt;/voice&gt;
+&lt;/speak&gt;</pre>
+      </div>
+    </section>
+
+    <!-- TAB 11: MASTER SCENARIO & STORYBOARD -->
+    <section id="manifesto_master_script" class="tab-content">
+      <div class="card-header" style="margin-bottom: 24px;">
+        <div>
+          <h1>Мастер-сценарий фильма «Живая кожа» (Раскадровка & Кинематика)</h1>
+          <p class="lede">Сквозная покадровая режиссура 65-секундного фильма Манифеста v3.1. Полная консистентность: видеоряд Veo 3.1, фирменная палитра Skinerica, голос Эрики ToV v4, интершумы и гармония Flow Music.</p>
+        </div>
+        <span class="badge badge-terra">Master Film Script · 65s</span>
+      </div>
+
+      <!-- Sync Matrix Table -->
+      <h2>Сводная синхронизация 5 сцен (Видео, Голос, Музыка, Шумы)</h2>
+      <div class="table-responsive">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Шот / Тайминг</th>
+              <th>Смысл и тема</th>
+              <th>Стартовый кадр (flow-kit)</th>
+              <th>Строфа диктора (ToV v4)</th>
+              <th>Flow Music (Аккорд)</th>
+              <th>Интершум (Foley)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>Шот 1<br>(0:00–0:11 · 11с)</b></td>
+              <td><b>«При свете»</b><br>Клиническая честность</td>
+              <td><code>shot-01_consult-doctor.jpg</code><br>(Д-р Баранчикова, Москва)</td>
+              <td><i>«Шестнадцать лет мы смотрим на кожу при свете — свете ламп и лазеров, в кабинете, вблизи. Этот свет не льстит. Он показывает кожу как есть.»</i></td>
+              <td><b>Dm9</b><br>D2 дрон виолончели + тактильные ноты рояля</td>
+              <td>Мягкий щелчок включения лампы, шорох льна, тихий вдох</td>
+            </tr>
+            <tr>
+              <td><b>Шот 2<br>(0:11–0:26 · 15с)</b></td>
+              <td><b>«Она живая»</b><br>Фактура и созревание</td>
+              <td><code>shot-02_model-A-face.jpg</code><br>+ <code>style-ref-02</code> (Скользящий)</td>
+              <td><i>«За эти годы мы выучили о коже главное: она живая. Она отвечает на свет, на прикосновение, на внимание, на заботу. Возраст ей не враг — кожа умеет не сдаваться, а расцветать и созревать. Мы помогаем ей в этом, сохраняя твою естественность и твою уникальность.»</i></td>
+              <td><b>Bbmaj7</b><br>Рояль раскрывается вверх до F4, теплое дыхание</td>
+              <td>Глубокий спокойный вдох, теплый поток воздуха кабинета</td>
+            </tr>
+            <tr>
+              <td><b>Шот 3<br>(0:26–0:39 · 13с)</b></td>
+              <td><b>«Результат на теле»</b><br>Осязаемый контур</td>
+              <td><code>shot-03_model-B-body.jpg</code><br>+ <code>style-ref-03</code> (Краснодар)</td>
+              <td><i>«Поэтому мы обещаем не чудо, а результат — не на словах, а на теле. Его видно при свете. Его чувствуешь на ощупь. Он тебе идёт.»</i></td>
+              <td><b>Fadd9</b><br>Уверенный бас F2, ритмический шаг 68 BPM</td>
+              <td>Мягкий шаг босой ноги, тактильное касание шелковистой кожи</td>
+            </tr>
+            <tr>
+              <td><b>Шот 4<br>(0:39–0:52 · 13с)</b></td>
+              <td><b>«Красота по праву»</b><br>Природное желание</td>
+              <td><code>shot-04_model-C-sitting.jpg</code><br>(Разворот у зеркала)</td>
+              <td><i>«Желание нравиться себе — природное, как дыхание: его не нужно объяснять и не нужно заслуживать. Красота по праву. И не когда-нибудь, а сейчас: чувствовать себя красиво.»</i></td>
+              <td><b>Gm9 $ightarrow$ Asus4</b><br>Эмоциональный подъем, ощущение свободы</td>
+              <td>Касание кончиками пальцев ключицы, шорох ткани</td>
+            </tr>
+            <tr>
+              <td><b>Шот 5<br>(0:52–1:05 · 13с)</b></td>
+              <td><b>«Настоящее к лицу»</b><br>Финальный взгляд и флагман</td>
+              <td><code>shot-05_style-01-heroine.jpg</code><br>(Главная героиня)</td>
+              <td><i>«Натуральность для нас — не лозунг, а способ смотреть: на кожу, на человека, на результат. Настоящее к лицу.»</i></td>
+              <td><b>Dmaj9 Resolve</b><br>Светлый Ре-мажор, мягкий сустейн</td>
+              <td>Тихий умиротворенный выдох, затухание в тишину</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Detailed Shot Cards -->
+      <h2>Карточки генерации 5 шотов для Google Flow</h2>
+
+      <!-- Shot 1 Card -->
+      <div class="card" style="margin-bottom: 20px;">
+        <div class="card-header">
+          <div>
+            <h3>Шот 1 · «При свете» (0:00 – 0:11 · Хронометраж: 11 сек)</h3>
+            <p style="font-size: 13px; color: var(--ink-72); margin-top: 4px;">Слот: <b>+ Add start frame</b> | Файл: <code>shot-01_consult-doctor.jpg</code> (Консультация Татьяны Баранчиковой)</p>
+          </div>
+          <button class="btn-copy" data-target="prompt-shot-1">Копировать промпт</button>
+        </div>
+        <div class="code-wrapper">
+          <pre id="prompt-shot-1">Slow cinematic push-in macro shot in a premium medical clinic. A focused female doctor in sage green linen gently examines a patient's radiant cheek under a soft warm diagnostic medical lamp. Subtle beam of warm light glides across the cheekbone revealing natural fine skin texture and pores. Gentle handheld camera breathing, 24fps, photorealistic.</pre>
+        </div>
+        <div style="margin-top: 12px; font-size: 13px; color: var(--ink-72); line-height: 1.6;">
+          <b>Регламент сборки:</b> Сгенерировать базовый клип на 8 секунд в <code>Veo 3.1 Quality</code>. Нажать кнопку <b>Extend</b> на карточке клипа $ightarrow$ добавить <b>+3 секунды</b>. Добавить клип в Scenebuilder через <code>More → Add to Scene</code>.<br>
+          <b>Колористика кадра:</b> Доктор в форме шалфейного льна <code>#769D8A</code>. Фон молочный <code>#F5F1EA</code> без клинической синевы.
+        </div>
+      </div>
+
+      <!-- Shot 2 Card -->
+      <div class="card" style="margin-bottom: 20px;">
+        <div class="card-header">
+          <div>
+            <h3>Шот 2 · «Она живая» (0:11 – 0:26 · Хронометраж: 15 сек)</h3>
+            <p style="font-size: 13px; color: var(--ink-72); margin-top: 4px;">Слот: <b>+ Add start frame</b> | Файл: <code>shot-02_model-A-face.jpg</code> + Референс стиля: <code>style-ref-02-grazing-light.jpg</code></p>
+          </div>
+          <button class="btn-copy" data-target="prompt-shot-2">Копировать промпт</button>
+        </div>
+        <div class="code-wrapper">
+          <pre id="prompt-shot-2">Extreme close-up macro portrait of a serene 32-year-old Slavic woman. A warm soft key light slowly sweeps across her face, illuminating natural skin micro-texture, velvet vellus hair, and honest cheek contours. Her chest gently rises with a calm breath, lips relax into a faint authentic micro-smile. Zero plastic gloss, high tonal depth, cinematic elegance.</pre>
+        </div>
+        <div style="margin-top: 12px; font-size: 13px; color: var(--ink-72); line-height: 1.6;">
+          <b>Регламент сборки:</b> Базовая генерация на 8 секунд. Нажать <b>Extend</b> $ightarrow$ добавить <b>+7 секунд</b> (суммарно 15 секунд). На клипе: <code>More → Add to Scene</code>.<br>
+          <b>Колористика кадра:</b> Пустая зона слева плавно растворяется в фоне по правилу <i>photo-caption-zone-melt</i>. Никакого пластикового размытия пор.
+        </div>
+      </div>
+
+      <!-- Shot 3 Card -->
+      <div class="card" style="margin-bottom: 20px;">
+        <div class="card-header">
+          <div>
+            <h3>Шот 3 · «Результат на теле» (0:26 – 0:39 · Хронометраж: 13 сек)</h3>
+            <p style="font-size: 13px; color: var(--ink-72); margin-top: 4px;">Слот: <b>+ Add start frame</b> | Файл: <code>shot-03_model-B-body.jpg</code> + Интерьер: <code>style-ref-03-clinic-room.jpg</code> (Краснодар)</p>
+          </div>
+          <button class="btn-copy" data-target="prompt-shot-3">Копировать промпт</button>
+        </div>
+        <div class="code-wrapper">
+          <pre id="prompt-shot-3">Medium tracking shot in a spacious milky ivory clinic room in Krasnodar. An athletic elegant woman in ivory swimwear slowly turns her shoulder towards the camera, showcasing sculpted back contours and toned waistline. Soft diffuse warm side light defines muscular anatomy without harsh shadows. Smooth gimbal rotation, editorial aesthetic.</pre>
+        </div>
+        <div style="margin-top: 12px; font-size: 13px; color: var(--ink-72); line-height: 1.6;">
+          <b>Регламент сборки:</b> Базовая генерация на 8 секунд. Нажать <b>Extend</b> $ightarrow$ добавить <b>+5 секунд</b> (суммарно 13 секунд). На клипе: <code>More → Add to Scene</code>.<br>
+          <b>Колористика кадра:</b> Теплая графитовая стена <code>#2E2A26</code> на втором плане, айвори-купальник клиентки, мягкий рассеянный боковой свет.
+        </div>
+      </div>
+
+      <!-- Shot 4 Card -->
+      <div class="card" style="margin-bottom: 20px;">
+        <div class="card-header">
+          <div>
+            <h3>Шот 4 · «Красота по праву» (0:39 – 0:52 · Хронометраж: 13 сек)</h3>
+            <p style="font-size: 13px; color: var(--ink-72); margin-top: 4px;">Слот: <b>+ Add start frame</b> | Файл: <code>shot-04_model-C-sitting.jpg</code> (Разворот у зеркала)</p>
+          </div>
+          <button class="btn-copy" data-target="prompt-shot-4">Копировать промпт</button>
+        </div>
+        <div class="code-wrapper">
+          <pre id="prompt-shot-4">Sensual cinematic medium close-up. A relaxed woman sitting gracefully turns her head over her shoulder, looking into a warm vanity mirror. Her eyes reflect quiet confidence and private self-admiration. Natural terracotta earring catches a pinpoint of warm light. Subtle natural camera drift, intimate atmosphere, pure authentic beauty.</pre>
+        </div>
+        <div style="margin-top: 12px; font-size: 13px; color: var(--ink-72); line-height: 1.6;">
+          <b>Регламент сборки:</b> Базовая генерация на 8 секунд. Нажать <b>Extend</b> $ightarrow$ добавить <b>+5 секунд</b> (суммарно 13 секунд). На клипе: <code>More → Add to Scene</code>.<br>
+          <b>Колористика кадра:</b> Терракотовая точка <code>#C9704F</code> в серьге или детали кроя. Скрытая чувственность как природное состояние.
+        </div>
+      </div>
+
+      <!-- Shot 5 Card -->
+      <div class="card" style="margin-bottom: 20px;">
+        <div class="card-header">
+          <div>
+            <h3>Шот 5 · «Настоящее к лицу» (0:52 – 1:05 · Хронометраж: 13 сек)</h3>
+            <p style="font-size: 13px; color: var(--ink-72); margin-top: 4px;">Слот: <b>+ Add start frame</b> | Файл: <code>shot-05_style-01-heroine.jpg</code> (Главный портрет героини)</p>
+          </div>
+          <button class="btn-copy" data-target="prompt-shot-5">Копировать промпт</button>
+        </div>
+        <div class="code-wrapper">
+          <pre id="prompt-shot-5">Hero close-up portrait. The heroine slowly raises her gaze directly into the camera lens with unwavering calmness and deep dignity. Soft milky ivory background fades into warm ambient space. Key sculpting light creates a pristine outline along her jaw. Static lock-on shot, gentle aperture bloom at the end, 4K filmic look.</pre>
+        </div>
+        <div style="margin-top: 12px; font-size: 13px; color: var(--ink-72); line-height: 1.6;">
+          <b>Регламент сборки:</b> Базовая генерация на 8 секунд. Нажать <b>Extend</b> $ightarrow$ добавить <b>+5 секунд</b> (суммарно 13 секунд). На клипе: <code>More → Add to Scene</code>.<br>
+          <b>Финальный экспорт:</b> В Scenebuilder нажать <b>Download scene</b> $ightarrow$ соединить MP4 с <code>flow_music_living_skin_v1.wav</code> в видеоредакторе.
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <!-- Mobile Bottom Navigation Bar -->
@@ -695,21 +1200,21 @@ Audio: quiet clinic room tone, no music.</pre>
       <span class="bnav-icon">🏠</span>
       <span>Обзор</span>
     </button>
-    <button class="bnav-item" data-tab="ui_inspector">
-      <span class="bnav-icon">📋</span>
-      <span>Меню</span>
-    </button>
-    <button class="bnav-item" data-tab="custom_tools">
+    <button class="bnav-item" data-tab="flow_workflow_2026">
       <span class="bnav-icon">⚡</span>
-      <span>Tools</span>
+      <span>Flow 2026</span>
     </button>
-    <button class="bnav-item" data-tab="prompts_master">
-      <span class="bnav-icon">✨</span>
-      <span>Промпты</span>
+    <button class="bnav-item" data-tab="manifesto_master_script">
+      <span class="bnav-icon">🎬</span>
+      <span>Сценарий</span>
     </button>
-    <button class="bnav-item" data-tab="voice_lab">
+    <button class="bnav-item" data-tab="manifesto_voice_studio">
       <span class="bnav-icon">🎙️</span>
-      <span>Голос</span>
+      <span>Озвучка</span>
+    </button>
+    <button class="bnav-item" data-tab="flow_music">
+      <span class="bnav-icon">🎵</span>
+      <span>Музыка</span>
     </button>
   </nav>
 
